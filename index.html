@@ -1,0 +1,51 @@
+<!-- webapp/index.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин Подписок</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Магазин Подписок</h1>
+
+        <div class="card">
+            <h2>🛡️ PRO Модерация</h2>
+            <p>Доступ ко всем модерационным функциям.</p>
+            <button onclick="selectSubscription('moder')">Выбрать</button>
+        </div>
+
+        <div class="card">
+            <h2>🎮 PRO Игры</h2>
+            <p>Доступ к всем игровым разделам бота.</p>
+            <button onclick="selectSubscription('game')">Выбрать</button>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Полная PRO</h2>
+            <p>Полный доступ ко всем функциям и играм.</p>
+            <button onclick="selectSubscription('full')">Выбрать</button>
+        </div>
+
+        <div class="form">
+            <label for="duration">Срок подписки:</label>
+            <select id="duration">
+                <option value="1">1 месяц</option>
+                <option value="3">3 месяца</option>
+                <option value="6">6 месяцев</option>
+                <option value="12">12 месяцев</option>
+            </select>
+
+            <label for="groupId">Ваш ID группы:</label>
+            <input type="text" id="groupId" placeholder="Введите ID группы">
+
+            <button class="pay-button" onclick="submitOrder()">Оплатить</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

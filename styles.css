@@ -1,0 +1,143 @@
+<!-- webapp/index.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛒 Магазин Подписок</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Магазин Подписок</h1>
+
+        <div class="card">
+            <h2>🛡️ PRO Модерация</h2>
+            <p>Доступ ко всем модерационным функциям.</p>
+            <button onclick="selectSubscription('moder')">Выбрать</button>
+        </div>
+
+        <div class="card">
+            <h2>🎮 PRO Игры</h2>
+            <p>Доступ ко всем игровым разделам бота.</p>
+            <button onclick="selectSubscription('game')">Выбрать</button>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Полная PRO</h2>
+            <p>Полный доступ ко всем функциям и играм.</p>
+            <button onclick="selectSubscription('full')">Выбрать</button>
+        </div>
+
+        <div class="form">
+            <label for="duration">Срок подписки:</label>
+            <select id="duration">
+                <option value="1">1 месяц</option>
+                <option value="3">3 месяца</option>
+                <option value="6">6 месяцев</option>
+                <option value="12">12 месяцев</option>
+            </select>
+
+            <label for="groupId">Ваш ID группы:</label>
+            <input type="text" id="groupId" placeholder="Введите ID группы">
+
+            <button class="pay-button" onclick="submitOrder()">Оплатить</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+/* webapp/styles.css */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --card-bg: #f9f9f9;
+  --button-bg: #4CAF50;
+  --button-text: #ffffff;
+}
+
+html[data-theme='dark'] {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --card-bg: #1e1e1e;
+  --button-bg: #6a5acd;
+  --button-text: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 20px;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card p {
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+.form {
+  margin-top: 30px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.pay-button {
+  width: 100%;
+}
