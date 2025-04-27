@@ -1,172 +1,111 @@
-<!-- webapp/index.html -->
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛒 Магазин Подписок</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>🛒 Магазин Подписок</h1>
-
-        <div class="card">
-            <h2>🛡️ PRO Модерация</h2>
-            <p>Доступ ко всем модерационным функциям.</p>
-            <button onclick="selectSubscription('moder')">Выбрать</button>
-        </div>
-
-        <div class="card">
-            <h2>🎮 PRO Игры</h2>
-            <p>Доступ ко всем игровым разделам бота.</p>
-            <button onclick="selectSubscription('game')">Выбрать</button>
-        </div>
-
-        <div class="card">
-            <h2>🚀 Полная PRO</h2>
-            <p>Полный доступ ко всем функциям и играм.</p>
-            <button onclick="selectSubscription('full')">Выбрать</button>
-        </div>
-
-        <div class="form">
-            <label for="duration">Срок подписки:</label>
-            <select id="duration">
-                <option value="1">1 месяц</option>
-                <option value="3">3 месяца</option>
-                <option value="6">6 месяцев</option>
-                <option value="12">12 месяцев</option>
-            </select>
-
-            <label for="groupId">Ваш ID группы:</label>
-            <input type="text" id="groupId" placeholder="Введите ID группы">
-
-            <button class="pay-button" onclick="submitOrder()">Оплатить</button>
-        </div>
-    </div>
-
-    <script>
-    let selectedSubscription = null;
-
-    function selectSubscription(type) {
-        selectedSubscription = type;
-        alert(`Вы выбрали: ${type.toUpperCase()}`);
-    }
-
-    function submitOrder() {
-        const duration = document.getElementById('duration').value;
-        const groupId = document.getElementById('groupId').value.trim();
-
-        if (!selectedSubscription || !duration || !groupId) {
-            alert('⚠️ Пожалуйста, выберите подписку и заполните все поля!');
-            return;
-        }
-
-        const orderData = {
-            subscription: selectedSubscription,
-            duration: duration,
-            groupId: groupId
-        };
-
-        if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.sendData(JSON.stringify(orderData));
-        } else {
-            alert('Ошибка отправки данных! Telegram WebApp не инициализирован.');
-        }
-    }
-    </script>
-</body>
-</html>
-
-/* webapp/styles.css */
-:root {
-  --bg-color: #ffffff;
-  --text-color: #000000;
-  --card-bg: #f9f9f9;
-  --button-bg: #4CAF50;
-  --button-text: #ffffff;
-}
-
-html[data-theme='dark'] {
-  --bg-color: #121212;
-  --text-color: #ffffff;
-  --card-bg: #1e1e1e;
-  --button-bg: #6a5acd;
-  --button-text: #ffffff;
-}
-
+/* космический фон + анимация звёзд */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 20px;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body::before, body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: transparent url('data:image/svg+xml;utf8,\
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">\
+      <circle cx="50%" cy="50%" r="1" fill="white" opacity="0.3"/>\
+    </svg>') repeat;
+  animation: moveStars 60s linear infinite;
+}
+body::after {
+  animation-duration: 120s;
+  opacity: 0.5;
 }
 
+@keyframes moveStars {
+  from { transform: translateY(0) translateX(0); }
+  to   { transform: translateY(-1000px) translateX(-500px); }
+}
+
+/* карточки и контейнер */
 .container {
-  max-width: 480px;
-  margin: auto;
+  position: relative;
+  z-index: 10;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  padding: 24px;
+  max-width: 360px;
+  width: 100%;
+  animation: fadeIn 0.8s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.card h2 {
   margin-top: 0;
+  text-align: center;
+  color: #333;
 }
-
-.card p {
-  font-size: 14px;
-  margin: 10px 0;
+.plans {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
 }
-
-button {
-  background: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  padding: 10px 20px;
+.plan {
+  flex: 1;
+  text-align: center;
+  background: #f3f3f3;
   border-radius: 8px;
+  padding: 12px 8px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s ease;
+  transition: transform 0.2s, background 0.2s;
+}
+.plan:hover {
+  transform: translateY(-4px);
+  background: #fff;
+}
+.plan.active {
+  background: #4f46e5;
+  color: #fff;
 }
 
-button:hover {
-  background: #45a049;
+.selection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-
-.form {
-  margin-top: 30px;
-}
-
 label {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  font-size: 0.85rem;
+  color: #555;
 }
-
-input, select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
+select, input {
+  padding: 8px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  background: var(--card-bg);
-  color: var(--text-color);
+  outline: none;
+  transition: border-color 0.2s;
+}
+select:focus, input:focus {
+  border-color: #4f46e5;
 }
 
-.pay-button {
-  width: 100%;
+.pay {
+  margin-top: 12px;
+  padding: 12px;
+  background: #10b981;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.pay:hover {
+  background: #0ea270;
+  transform: translateY(-2px);
 }
