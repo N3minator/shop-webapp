@@ -1,12 +1,12 @@
-// Инициализация Particles.js (анимированный космос)
+// Инициализация Particles.js для анимированного космоса
 particlesJS('particles-js', {
   "particles": {
     "number": {
       "value": 100,
-      "density": {"enable": true, "value_area": 800}
+      "density": { "enable": true, "value_area": 800 }
     },
-    "color": {"value": "#ffffff"},
-    "shape": {"type": "circle"},
+    "color": { "value": "#ffffff" },
+    "shape": { "type": "circle" },
     "opacity": {
       "value": 0.7,
       "random": true
@@ -25,17 +25,17 @@ particlesJS('particles-js', {
   "interactivity": {
     "detect_on": "canvas",
     "events": {
-      "onhover": {"enable": true, "mode": "repulse"},
-      "onclick": {"enable": false}
+      "onhover": { "enable": true, "mode": "repulse" },
+      "onclick": { "enable": false }
     },
     "modes": {
-      "repulse": {"distance": 80, "duration": 0.4}
+      "repulse": { "distance": 80, "duration": 0.4 }
     }
   },
   "retina_detect": true
 });
 
-// Параллакс эффект по движению мышки
+// Параллакс эффект — движение фона по движению мышки
 document.addEventListener('mousemove', e => {
   const moveX = (e.clientX / window.innerWidth) - 0.5;
   const moveY = (e.clientY / window.innerHeight) - 0.5;
@@ -47,7 +47,7 @@ document.addEventListener('mousemove', e => {
 const tg = window.Telegram.WebApp;
 let selectedPlan = 'moder';
 
-// Выбор плана
+// Выбор подписки
 document.querySelectorAll('.plan').forEach(el => {
   el.addEventListener('click', () => {
     document.querySelectorAll('.plan').forEach(p => p.classList.remove('active'));
@@ -55,7 +55,6 @@ document.querySelectorAll('.plan').forEach(el => {
     selectedPlan = el.dataset.plan;
   });
 });
-// Активировать первый по умолчанию
 document.querySelector('.plan').classList.add('active');
 
 // Кнопка "Оплатить"
@@ -74,11 +73,11 @@ document.getElementById('payBtn').addEventListener('click', () => {
   }));
 });
 
-// Прятать главную кнопку Telegram
+// Прячем основную кнопку Telegram
 tg.MainButton.hide();
 tg.ready();
 
-// Метеоры (падающие звёзды)
+// Метеоры — падающие звезды
 function createMeteor() {
   const meteor = document.createElement('div');
   meteor.classList.add('meteor');
@@ -89,10 +88,10 @@ function createMeteor() {
 
   setTimeout(() => {
     meteor.remove();
-  }, 2000);
+  }, 2500);
 }
 
-// Появление метеора каждые 7-15 секунд
+// Запуск метеоров каждые 7-12 секунд случайно
 setInterval(() => {
   if (Math.random() < 0.5) createMeteor();
 }, 7000);
@@ -102,9 +101,9 @@ const style = document.createElement('style');
 style.innerHTML = `
 .meteor {
   position: fixed;
-  top: -20px;
+  top: -30px;
   width: 2px;
-  height: 80px;
+  height: 100px;
   background: linear-gradient(180deg, white, rgba(255,255,255,0));
   opacity: 0.7;
   z-index: 2;
