@@ -1,210 +1,238 @@
-/* Основные стили */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow-x: hidden;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-  color: #fff;
-  height: 100vh;
-}
-
-.container {
-  text-align: center;
-  padding: 20px;
-  animation: fadeIn 2s ease-in;
-}
-
-.main-title {
-  font-size: 28px;
-  margin-bottom: 30px;
-  animation: titleColorChange 10s infinite alternate;
-}
-
-/* Плавная смена цвета заголовка */
-@keyframes titleColorChange {
-  0% { color: #ffffff; }
-  25% { color: #a5f3fc; }
-  50% { color: #c084fc; }
-  75% { color: #facc15; }
-  100% { color: #f472b6; }
-}
-
-/* Блоки планов */
-.plans {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.plan {
-  background: rgba(79, 70, 229, 0.2);
-  padding: 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.plan:hover {
-  background: rgba(79, 70, 229, 0.5);
-  transform: scale(1.05);
-}
-
-/* Форма */
-.form {
-  margin-top: 20px;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-#groupPreview {
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #a5f3fc;
-  animation: fadeIn 1s ease;
-}
-
-/* Кнопка оплаты */
-#payBtn {
-  background: #6366f1;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  width: 100%;
-}
-
-#payBtn:hover {
-  background: #818cf8;
-}
-
-/* Кнопка управления музыкой */
-#music-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(79, 70, 229, 0.8);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 999;
-  font-size: 14px;
-  transition: background 0.3s;
-}
-
-#music-toggle:hover {
-  background: rgba(124, 58, 237, 0.9);
-}
-
-/* Уведомление о найденной звезде */
-#star-notification {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #a5f3fc;
-  color: #0f172a;
-  padding: 20px 30px;
-  border-radius: 12px;
-  font-size: 18px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-  z-index: 999;
-}
-
-#star-notification.show {
-  opacity: 1;
-}
-
-/* Анимации */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-/* Спутник */
-.satellite {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: #a5f3fc;
-  border-radius: 50%;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-/* Секретная звезда (пасхалка) */
-.secret-star {
-  position: fixed;
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, #facc15, #f59e0b);
-  border-radius: 50%;
-  z-index: 3;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.secret-star:hover {
-  transform: scale(1.5);
-  opacity: 1;
-}
-
+/* Космический фон */
 #particles-js {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* <-- Очень важно */
-}
-
-/* Ограничение ширины контейнера и свечение */
-.container {
-  max-width: 480px;
-  margin: auto;
-  text-align: center;
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(165, 243, 252, 0.3), 0 0 40px rgba(165, 243, 252, 0.2);
-  animation: fadeIn 2s ease-in;
-  position: relative;
-  z-index: 1;
-}
-
-/* Выбранная подписка */
-.plan.selected {
-  border: 2px solid #a5f3fc;
-  background: rgba(79, 70, 229, 0.7);
-  transform: scale(1.08);
-}
-
-/* Частицы на заднем фоне */
-#particles-js {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
+  top: 0;
+  left: 0;
 }
 
-/* Чтобы основной контент был поверх частиц */
-#main-content {
+/* Базовая настройка */
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #000;
+
+  background: linear-gradient(120deg, #000, #01011a, #0a001f);
+  background-size: 400% 400%;
+  animation: bgShift 60s ease infinite alternate;
+}
+@keyframes bgShift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Контейнер подписок */
+.container {
   position: relative;
-  z-index: 1;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 25px 30px;
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 25px rgba(80, 90, 255, 0.6);
+  animation: glow 3s infinite alternate, fadeIn 1s ease-out;
+  width: 350px;
+}
+
+/* Свечение контейнера */
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(80, 90, 255, 0.5); }
+  to { box-shadow: 0 0 35px rgba(80, 90, 255, 0.9); }
+}
+
+/* Плавное появление контейнера */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Заголовок с анимацией */
+.shop-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #8b5cf6, #4f46e5, #8b5cf6);
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  /* Плавный переход градиента туда–обратно + плавная пульсация */
+  animation:
+    gradientFlow 5s ease-in-out infinite alternate,
+    shopPulse    3s ease-in-out infinite alternate;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes shopPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+/* Карточки подписок */
+.plans {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.plan {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.5s;
+  transform: scale(1);
+  background-size: 200%;
+}
+
+.plan:hover {
+  /* Чтобы содержимое внутри анимиревалось */
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+  background-image: linear-gradient(90deg, #4f46e5, #8b5cf6, #4f46e5);
+  color: #fff;
+  background-position: right center;
+  transform: scale(1.05);
+}
+
+/* Чтобы содержимое внутри анимиревалось */
+.plan span {
+  display: inline-block;
+  transition: transform .3s ease;
+}
+/* Чтобы содержимое внутри анимиревалось */
+.plan:hover span {
+  transform: rotate(-10deg) translateY(-3px);
+}
+
+.plan.active {
+  background: #10b981;
+  color: #fff;
+}
+
+/* Форма выбора */
+.selection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+select, input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  outline: none;
+  transition: 0.3s;
+}
+
+select:focus, input:focus {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Подсветка ошибки в ID текста */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+input.error {
+  border: 1px solid #f87171;
+  background: rgba(255, 0, 0, 0.2);
+
+  animation: shake .5s;
+  border-color: #f87171;
+}
+
+/* Отображение ID группы */
+.group-preview {
+  font-size: 13px;
+  color: #a5f3fc;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.4s ease;
+}
+.group-preview.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Кнопка "Оплатить" */
+.pay {
+  padding: 14px;
+  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  margin-top: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.5s;
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+}
+.pay:hover {
+  background: linear-gradient(90deg, #8b5cf6, #4f46e5);
+  box-shadow: 0 0 25px rgba(79, 70, 229, 0.7);
+  transform: translateY(-3px);
+}
+
+/* Надёжно сделать и закрытый селект, и выпадающий список чёрными с белым текстом */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #1f1f1f !important;
+  color: #fff !important;
+  padding-right: 30px; /* чтобы стрелка не заезжала на текст */
+}
+/* скрываем нативную стрелку в IE/Edge */
+select::-ms-expand { display: none; }
+
+/* сам нативный список опций */
+select option {
+  background-color: #1f1f1f !important;
+  color: #fff !important;
+}
+
+/*Шлейф курсора*/
+.trail-dot {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.2;
+  animation: trailFade 1s ease-out forwards;
+}
+
+@keyframes trailFade {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
 }
