@@ -5,40 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🛒 Магазин Подписок</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
+  <div id="particles-js"></div>
 
-<div id="particles-js"></div>
+  <div class="container" id="main-content">
+    <h1 class="main-title">🛒 Магазин Подписок</h1>
 
-<div class="container">
-  <h1 class="shop-title">🛒 Магазин Подписок</h1>
+    <div class="plans">
+      <div class="plan" data-plan="moder">🛡️ PRO Модерация</div>
+      <div class="plan" data-plan="game">🎮 PRO Игры</div>
+      <div class="plan" data-plan="full">🚀 Полная PRO</div>
+    </div>
 
-  <div class="plans">
-    <div class="plan" data-plan="moder"><span>👨‍⚖️</span> PRO Модерация</div>
-    <div class="plan" data-plan="game"><span>🎮</span> PRO Игры</div>
-    <div class="plan" data-plan="full"><span>🚀</span> Полная PRO</div>
+    <div class="form">
+      <label for="duration">Срок подписки:</label>
+      <select id="duration">
+        <option value="1">1 месяц</option>
+        <option value="3">3 месяца</option>
+        <option value="6">6 месяцев</option>
+        <option value="12">12 месяцев</option>
+      </select>
+
+      <label for="groupId">ID вашей группы:</label>
+      <input type="text" id="groupId" placeholder="Введите ID">
+      <div id="groupPreview"></div>
+
+      <button id="payBtn">Оплатить</button>
+    </div>
   </div>
 
-  <div class="selection">
-    <label for="duration">Срок подписки</label>
-    <select id="duration">
-      <option value="1">1 месяц</option>
-      <option value="3">3 месяца</option>
-      <option value="6">6 месяцев</option>
-      <option value="12">12 месяцев</option>
-    </select>
+  <button id="music-toggle">🔊 Музыка Вкл</button>
 
-    <label for="groupId">Ваш ID группы</label>
-    <input id="groupId" type="text" placeholder="1001234567890">
-    <div id="groupPreview" class="group-preview"></div>
+  <div id="star-notification" class="hidden">🌟 Ты нашёл секретную звезду!</div>
 
-    <button id="payBtn" class="pay">Оплатить</button>
-  </div>
-</div>
+  <audio id="background-music" src="https://cdn.pixabay.com/audio/2022/07/20/audio_63096c3c24.mp3" loop></audio>
 
-<script src="script.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script src="script.js"></script>
+  <script src="improvements.js"></script>
 </body>
 </html>
