@@ -1,4 +1,4 @@
-// Инициализация Particles.js для анимированного космоса
+// Инициализация Particles.js для космоса
 particlesJS('particles-js', {
   "particles": {
     "number": {
@@ -35,7 +35,7 @@ particlesJS('particles-js', {
   "retina_detect": true
 });
 
-// Параллакс эффект — движение фона по движению мышки
+// Параллакс эффект движения космоса
 document.addEventListener('mousemove', e => {
   const moveX = (e.clientX / window.innerWidth) - 0.5;
   const moveY = (e.clientY / window.innerHeight) - 0.5;
@@ -57,14 +57,34 @@ document.querySelectorAll('.plan').forEach(el => {
 });
 document.querySelector('.plan').classList.add('active');
 
+// Проверка ID группы
+const groupInput = document.getElementById('groupId');
+const groupPreview = document.getElementById('groupPreview');
+
+groupInput.addEventListener('input', () => {
+  const value = groupInput.value.trim();
+  if (value && /^\d{5,}$/.test(value)) {
+    groupInput.classList.remove('error');
+    groupPreview.textContent = `Введённый ID: ${value}`;
+    groupPreview.classList.add('show');
+  } else {
+    groupInput.classList.add('error');
+    groupPreview.classList.remove('show');
+    groupPreview.textContent = '';
+  }
+});
+
 // Кнопка "Оплатить"
 document.getElementById('payBtn').addEventListener('click', () => {
   const duration = +document.getElementById('duration').value;
   const groupId = document.getElementById('groupId').value.trim();
-  if (!groupId) {
-    alert('Введите ID вашей группы');
+
+  if (!groupId || !/^\d{5,}$/.test(groupId)) {
+    alert('Введите корректный ID группы (только цифры, минимум 5 знаков).');
+    groupInput.classList.add('error');
     return;
   }
+
   tg.sendData(JSON.stringify({
     subscription: selectedPlan,
     duration,
@@ -73,14 +93,15 @@ document.getElementById('payBtn').addEventListener('click', () => {
   }));
 });
 
-// Прячем основную кнопку Telegram
+// Прятать основную кнопку Telegram
 tg.MainButton.hide();
 tg.ready();
 
-// Метеоры — падающие звезды
-function createMeteor() {
+// Метеоры и вспышки
+function createMeteor(big = false) {
   const meteor = document.createElement('div');
   meteor.classList.add('meteor');
+  if (big) meteor.classList.add('big');
   document.body.appendChild(meteor);
 
   meteor.style.left = Math.random() * window.innerWidth + 'px';
@@ -88,13 +109,18 @@ function createMeteor() {
 
   setTimeout(() => {
     meteor.remove();
-  }, 2500);
+  }, 3000);
 }
 
-// Запуск метеоров каждые 7-12 секунд случайно
+// Запуск обычных метеоров
 setInterval(() => {
-  if (Math.random() < 0.5) createMeteor();
+  if (Math.random() < 0.6) createMeteor();
 }, 7000);
+
+// Запуск больших метеоров с эффектом вспышки
+setInterval(() => {
+  if (Math.random() < 0.3) createMeteor(true);
+}, 15000);
 
 // Стили для метеоров
 const style = document.createElement('style');
@@ -108,11 +134,18 @@ style.innerHTML = `
   opacity: 0.7;
   z-index: 2;
   pointer-events: none;
+  transform: rotate(45deg);
   animation: meteorFall linear forwards;
+}
+.meteor.big {
+  width: 3px;
+  height: 150px;
+  background: linear-gradient(180deg, #ffffff, rgba(255,255,255,0));
+  box-shadow: 0 0 25px #ffffff;
 }
 @keyframes meteorFall {
   0% {
-    transform: translateY(0) rotate(45deg);
+    transform: translateY(0) translateX(0) rotate(45deg);
     opacity: 0.9;
   }
   100% {
