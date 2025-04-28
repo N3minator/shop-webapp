@@ -71,8 +71,10 @@ document.getElementById('payBtn').addEventListener('click', () => {
   const duration = +document.getElementById('duration').value;
   const groupId = document.getElementById('groupId').value.trim();
 
-  if (!groupId || !/^\d{5,}$/.test(groupId)) {
-    alert('Введите корректный ID группы (только цифры, минимум 5 знаков).');
+  const digitsOnly = groupId.startsWith('-') ? groupId.slice(1) : groupId;
+
+  if (!/^-?\d+$/.test(groupId) || digitsOnly.length < 8) {
+    alert('Введите корректный ID группы (опциональный дефис "-" в начале и минимум 8 цифр).');
     groupInput.classList.add('error');
     return;
   }
