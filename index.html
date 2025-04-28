@@ -13,12 +13,14 @@
 <div id="particles-js"></div>
 
 <div class="container">
-  <h1>🛒 Магазин Подписок</h1>
+  <h1 class="shop-title">🛒 Магазин Подписок</h1>
+
   <div class="plans">
     <div class="plan" data-plan="moder"><span>👨‍⚖️</span> PRO Модерация</div>
     <div class="plan" data-plan="game"><span>🎮</span> PRO Игры</div>
     <div class="plan" data-plan="full"><span>🚀</span> Полная PRO</div>
   </div>
+
   <div class="selection">
     <label for="duration">Срок подписки</label>
     <select id="duration">
@@ -27,8 +29,11 @@
       <option value="6">6 месяцев</option>
       <option value="12">12 месяцев</option>
     </select>
+
     <label for="groupId">Ваш ID группы</label>
     <input id="groupId" type="text" placeholder="1001234567890">
+    <div id="groupPreview" class="group-preview"></div>
+
     <button id="payBtn" class="pay">Оплатить</button>
   </div>
 </div>
