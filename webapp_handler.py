@@ -1,3 +1,4 @@
+import logging
 import json
 import sqlite3
 from datetime import datetime, timedelta
@@ -7,16 +8,22 @@ from telegram.ext import ContextTypes
 # Путь к вашей chat_config.db
 DB_PATH = 'database/data_main/chat_config.db'
 
+# заведём логгер модуля
+logger = logging.getLogger(__name__)
+
 
 async def handle_web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = json.loads(update.message.web_app_data.data)
+    # <-- логируем сразу всё пришедшее
+    logger.info("🚀 WebApp data received: %s", data)
+
     subscription = data.get("subscription")
     duration = int(data.get("duration", 0))
     group_id = data.get("group_id")
     test_mode = data.get("test", False)
 
-    # валидация
     if not subscription or not duration or not group_id:
+        logger.warning("⚠️ Incomplete WebApp data: %s", data)
         await update.message.reply_text("❗ Ошибка: неполные данные заказа.")
         return
 
