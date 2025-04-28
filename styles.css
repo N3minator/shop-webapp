@@ -8,7 +8,7 @@
   left: 0;
 }
 
-/* Основной фон и базовая настройка */
+/* Базовая настройка */
 body {
   margin: 0;
   overflow: hidden;
@@ -21,7 +21,7 @@ body {
   min-height: 100vh;
 }
 
-/* Космический контейнер */
+/* Контейнер подписок */
 .container {
   position: relative;
   z-index: 10;
@@ -36,27 +36,40 @@ body {
 
 /* Свечение контейнера */
 @keyframes glow {
-  from {
-    box-shadow: 0 0 20px rgba(80, 90, 255, 0.5);
-  }
-  to {
-    box-shadow: 0 0 35px rgba(80, 90, 255, 0.9);
-  }
+  from { box-shadow: 0 0 20px rgba(80, 90, 255, 0.5); }
+  to { box-shadow: 0 0 35px rgba(80, 90, 255, 0.9); }
 }
 
-/* Плавное появление */
+/* Плавное появление контейнера */
 @keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.9);}
-  to {opacity: 1; transform: scale(1);}
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-h1 {
+/* Заголовок с анимацией */
+.shop-title {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
-  animation: fadeIn 1.5s ease-in-out;
+  background: linear-gradient(90deg, #8b5cf6, #4f46e5, #8b5cf6);
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientFlow 5s infinite linear, shopPulse 3s infinite alternate;
 }
 
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes shopPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+/* Карточки подписок */
 .plans {
   display: flex;
   gap: 10px;
@@ -71,11 +84,14 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.4s;
+  transition: 0.5s;
   transform: scale(1);
+  background-size: 200%;
 }
 .plan:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background-image: linear-gradient(90deg, #4f46e5, #8b5cf6, #4f46e5);
+  color: #fff;
+  background-position: right center;
   transform: scale(1.05);
 }
 .plan.active {
@@ -83,6 +99,7 @@ h1 {
   color: #fff;
 }
 
+/* Форма выбора */
 .selection {
   display: flex;
   flex-direction: column;
@@ -102,25 +119,48 @@ select, input {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
   outline: none;
+  transition: 0.3s;
 }
 select:focus, input:focus {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Кнопка оплаты */
+/* Подсветка ошибки */
+input.error {
+  border: 1px solid #f87171;
+  background: rgba(255, 0, 0, 0.2);
+}
+
+/* Отображение ID группы */
+.group-preview {
+  font-size: 13px;
+  color: #a5f3fc;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.4s ease;
+}
+.group-preview.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Кнопка "Оплатить" */
 .pay {
   padding: 14px;
-  background: #4f46e5;
+  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
   border: none;
   border-radius: 10px;
   color: #fff;
   margin-top: 15px;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.4s;
+  transition: 0.5s;
   box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
 }
 .pay:hover {
-  background: #4338ca;
+  background: linear-gradient(90deg, #8b5cf6, #4f46e5);
   box-shadow: 0 0 25px rgba(79, 70, 229, 0.7);
+  transform: translateY(-3px);
 }
