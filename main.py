@@ -33,7 +33,7 @@ def main():
     app.run_webhook(
         listen="0.0.0.0",
         port=8443,
-        webhook_url="https://17e0-91-204-207-1.ngrok-free.app/webhook"
+        webhook_url="https://1e70-91-204-207-1.ngrok-free.app/webhook"
     )
 
 
