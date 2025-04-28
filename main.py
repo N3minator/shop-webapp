@@ -23,12 +23,18 @@ logging.getLogger('core.webapp.webapp_handler').setLevel(logging.INFO)
 async def post_init(app):
     init_db()
     await setup_jobqueue(app)
+    await app.bot.set_webhook(url="https://17e0-91-204-207-1.ngrok-free.app/webhook")
 
 
 def main():
     app = Application.builder().token(TOKEN).post_init(post_init).build()
     setup_all_handlers(app)
-    app.run_polling()
+
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=8443,
+        webhook_url="https://17e0-91-204-207-1.ngrok-free.app/webhook"
+    )
 
 
 if __name__ == '__main__':
