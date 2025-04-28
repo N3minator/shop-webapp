@@ -55,7 +55,11 @@ const groupPreview = document.getElementById('groupPreview');
 
 groupInput.addEventListener('input', () => {
   const value = groupInput.value.trim();
-  if (value && /^\d{5,}$/.test(value)) {
+  // убираем ведущий минус для подсчёта цифр
+  const digitsOnly = value.startsWith('-') ? value.slice(1) : value;
+
+  // пропускаем строки вида "-123456" или "123456", но не меньше 5 цифр
+  if (/^-?\d{5,}$/.test(value)) {
     groupInput.classList.remove('error');
     groupPreview.textContent = `Введённый ID: ${value}`;
     groupPreview.classList.add('show');
@@ -66,6 +70,7 @@ groupInput.addEventListener('input', () => {
   }
 });
 
+
 // Кнопка "Оплатить"
 document.getElementById('payBtn').addEventListener('click', () => {
   const duration = +document.getElementById('duration').value;
@@ -73,11 +78,12 @@ document.getElementById('payBtn').addEventListener('click', () => {
 
   const digitsOnly = groupId.startsWith('-') ? groupId.slice(1) : groupId;
 
-  if (!/^-?\d+$/.test(groupId) || digitsOnly.length < 8) {
-    alert('Введите корректный ID группы (опциональный дефис "-" в начале и минимум 8 цифр).');
-    groupInput.classList.add('error');
-    return;
+  if (!groupId || !/^-?\d{5,}$/.test(groupId)) {
+  alert('Введите корректный ID группы (только цифры, опционально минус спереди, минимум 5 цифр).');
+  groupInput.classList.add('error');
+  return;
   }
+
 
   tg.sendData(JSON.stringify({
     subscription: selectedPlan,
