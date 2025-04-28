@@ -76,14 +76,18 @@ document.getElementById('payBtn').addEventListener('click', () => {
   const duration = +document.getElementById('duration').value;
   const groupId = document.getElementById('groupId').value.trim();
 
-  const digitsOnly = groupId.startsWith('-') ? groupId.slice(1) : groupId;
+  // <-- добавляем логирование
+  console.log('🔔 [WebApp] Pay button clicked', {
+    plan: selectedPlan,
+    duration,
+    groupId
+  });
 
-  if (!groupId || !/^-?\d{5,}$/.test(groupId)) {
-  alert('Введите корректный ID группы (только цифры, опционально минус спереди, минимум 5 цифр).');
-  groupInput.classList.add('error');
-  return;
+  if (!groupId || !/^\d{5,}$/.test(groupId)) {
+    alert('Введите корректный ID группы (только цифры, минимум 5 знаков).');
+    groupInput.classList.add('error');
+    return;
   }
-
 
   tg.sendData(JSON.stringify({
     subscription: selectedPlan,
