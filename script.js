@@ -1,98 +1,182 @@
-// script.js — базовая логика космоса и магазина
+// Инициализация Particles.js для космоса
+particlesJS('particles-js', {
+  "particles": {
+    "number": {
+      "value": 100,
+      "density": { "enable": true, "value_area": 800 }
+    },
+    "color": { "value": "#ffffff" },
+    "shape": { "type": "circle" },
+    "opacity": {
+      "value": 0.7,
+      "random": true
+    },
+    "size": {
+      "value": 2,
+      "random": true
+    },
+    "move": {
+      "enable": true,
+      "speed": 0.6,
+      "direction": "none",
+      "out_mode": "out"
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": { "enable": true, "mode": "repulse" },
+      "onclick": { "enable": false }
+    },
+    "modes": {
+      "repulse": { "distance": 80, "duration": 0.4 }
+    }
+  },
+  "retina_detect": true
+});
 
-// Плавная прокрутка к основной части (если понадобится позже)
-function scrollToMain() {
-  document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
-}
+// Telegram WebApp API
+const tg = window.Telegram.WebApp;
+let selectedPlan = 'moder';
 
-// Обработка выбора подписки
-let selectedPlan = null;
-const planElements = document.querySelectorAll('.plan');
-
-planElements.forEach(plan => {
-  plan.addEventListener('click', () => {
-    selectedPlan = plan.dataset.plan;
-    planElements.forEach(p => p.classList.remove('selected'));
-    plan.classList.add('selected');
+// Выбор подписки
+document.querySelectorAll('.plan').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.plan').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    selectedPlan = el.dataset.plan;
   });
 });
+document.querySelector('.plan').classList.add('active');
 
-// Обработка оплаты
-document.getElementById('payBtn').addEventListener('click', () => {
-  const duration = document.getElementById('duration').value;
-  const groupId = document.getElementById('groupId').value.trim();
-
-  if (!selectedPlan || !duration || !groupId) {
-    alert('⚠️ Пожалуйста, выберите подписку и заполните все поля!');
-    return;
-  }
-
-  const orderData = {
-    subscription: selectedPlan,
-    duration: duration,
-    groupId: groupId
-  };
-
-  if (window.Telegram.WebApp) {
-    window.Telegram.WebApp.sendData(JSON.stringify(orderData));
-  } else {
-    alert('Telegram WebApp не инициализирован!');
-  }
-});
-
-// Валидация ID группы
-const groupIdInput = document.getElementById('groupId');
+// Проверка ID группы
+const groupInput = document.getElementById('groupId');
 const groupPreview = document.getElementById('groupPreview');
 
-groupIdInput.addEventListener('input', () => {
-  const id = groupIdInput.value.trim();
-  if (/^\d+$/.test(id) && id.length >= 6) {
-    groupIdInput.style.border = '2px solid #22c55e'; // Зелёная рамка
-    groupPreview.textContent = `ID группы: ${id}`;
+groupInput.addEventListener('input', () => {
+  const value = groupInput.value.trim();
+  if (value && /^\d{5,}$/.test(value)) {
+    groupInput.classList.remove('error');
+    groupPreview.textContent = `Введённый ID: ${value}`;
+    groupPreview.classList.add('show');
   } else {
-    groupIdInput.style.border = '2px solid #ef4444'; // Красная рамка
+    groupInput.classList.add('error');
+    groupPreview.classList.remove('show');
     groupPreview.textContent = '';
   }
 });
 
+// Кнопка "Оплатить"
+document.getElementById('payBtn').addEventListener('click', () => {
+  const duration = +document.getElementById('duration').value;
+  const groupId = document.getElementById('groupId').value.trim();
 
-// 🚀 Инициализация фона частиц (разноцветные звезды)
-particlesJS('particles-js', {
-  particles: {
-    number: {
-      value: 120,
-      density: { enable: true, value_area: 800 }
-    },
-    color: {
-      value: ["#a5f3fc", "#c084fc", "#f472b6", "#facc15"]
-    },
-    shape: {
-      type: "circle",
-      stroke: { width: 0, color: "#000000" }
-    },
-    opacity: { value: 0.6, random: true },
-    size: { value: 2.5, random: true },
-    move: {
-      enable: true,
-      speed: 0.9,
-      direction: "none",
-      random: true,
-      straight: false,
-      out_mode: "out",
-      bounce: false
-    }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: { enable: true, mode: "repulse" },
-      onclick: { enable: true, mode: "push" },
-      resize: true
-    },
-    modes: {
-      repulse: { distance: 100, duration: 0.4 },
-      push: { particles_nb: 4 }
-    }
-  },
-  retina_detect: true
+  if (!groupId || !/^\d{5,}$/.test(groupId)) {
+    alert('Введите корректный ID группы (только цифры, минимум 5 знаков).');
+    groupInput.classList.add('error');
+    return;
+  }
+
+  tg.sendData(JSON.stringify({
+    subscription: selectedPlan,
+    duration,
+    group_id: groupId,
+    test: true
+  }));
+});
+
+// Прятать основную кнопку Telegram
+tg.MainButton.hide();
+tg.ready();
+
+// Метеоры и вспышки
+function createMeteor(big = false) {
+  const meteor = document.createElement('div');
+  meteor.classList.add('meteor');
+  if (big) meteor.classList.add('big');
+  document.body.appendChild(meteor);
+
+  meteor.style.left = Math.random() * window.innerWidth + 'px';
+  meteor.style.animationDuration = (1 + Math.random() * 1.5) + 's';
+
+  setTimeout(() => {
+    meteor.remove();
+  }, 3000);
+}
+
+// Запуск обычных метеоров
+setInterval(() => {
+  if (Math.random() < 0.6) createMeteor();
+}, 7000);
+
+// Запуск больших метеоров с эффектом вспышки
+setInterval(() => {
+  if (Math.random() < 0.3) createMeteor(true);
+}, 15000);
+
+
+// Стили для метеоров
+const style = document.createElement('style');
+style.innerHTML = `
+.meteor {
+  position: fixed;
+  top: -150px; /* старт чуть выше экрана */
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(rgba(255,255,255,0), white);
+  opacity: 0.8;
+  z-index: 2;
+  pointer-events: none;
+  transform-origin: top center; /* голова — точка вращения */
+  animation: meteorFall linear forwards;
+}
+.meteor.big {
+  width: 3px;
+  height: 150px;
+  background: linear-gradient(rgba(255,255,255,0), white);
+  box-shadow: 0 0 25px #fff;
+  transform-origin: top center;
+}
+
+@keyframes meteorFall {
+  0% {
+    /* поворот на −45° (вниз–влево), затем без смещения */
+    transform: rotate(-45deg) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    /* та же ориентация + смещаемся вдоль локальной оси Y за пределы экрана */
+    transform: rotate(-45deg) translateY(120vh);
+    opacity: 0;
+  }
+}
+`;
+document.head.appendChild(style);
+
+// Параллакс эффект движения космоса
+document.addEventListener('mousemove', e => {
+  const moveX = (e.clientX / window.innerWidth) - 0.5;
+  const moveY = (e.clientY / window.innerHeight) - 0.5;
+  document.getElementById('particles-js').style.transform =
+    `translate(${moveX * 20}px, ${moveY * 20}px)`;
+});
+
+// Новый trail-эффект: несколько шариков при каждом движении
+document.addEventListener('mousemove', e => {
+  for (let i = 0; i < 3; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'trail-dot';
+    // рандомный размер
+    const size = Math.random() * 8 + 4;
+    dot.style.width = dot.style.height = size + 'px';
+    // центрируем относительно курсора
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    // рандомный светлый цвет в пурпурной гамме
+    const hue = 270 + (Math.random() * 40 - 20); // 250–290°
+    dot.style.background = `hsl(${hue}, 70%, 75%)`;
+    document.body.appendChild(dot);
+    // удаляем через секунду
+    setTimeout(() => dot.remove(), 1000);
+  }
 });
