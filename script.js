@@ -1,26 +1,12 @@
 // Инициализация Particles.js для космоса
 particlesJS('particles-js', {
   "particles": {
-    "number": {
-      "value": 100,
-      "density": { "enable": true, "value_area": 800 }
-    },
+    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
     "color": { "value": "#ffffff" },
     "shape": { "type": "circle" },
-    "opacity": {
-      "value": 0.7,
-      "random": true
-    },
-    "size": {
-      "value": 2,
-      "random": true
-    },
-    "move": {
-      "enable": true,
-      "speed": 0.6,
-      "direction": "none",
-      "out_mode": "out"
-    }
+    "opacity": { "value": 0.7, "random": true },
+    "size": { "value": 2, "random": true },
+    "move": { "enable": true, "speed": 0.6, "direction": "none", "out_mode": "out" }
   },
   "interactivity": {
     "detect_on": "canvas",
@@ -58,8 +44,8 @@ groupInput.addEventListener('input', () => {
   // убираем ведущий минус для подсчёта цифр
   const digitsOnly = value.startsWith('-') ? value.slice(1) : value;
 
-  // пропускаем строки вида "-123456" или "123456", но не меньше 5 цифр
-  if (/^-?\d{5,}$/.test(value)) {
+  // пропускаем "-123456" или "123456", но не меньше 5 цифр
+  if (/^\d+$/.test(digitsOnly) && digitsOnly.length >= 5) {
     groupInput.classList.remove('error');
     groupPreview.textContent = `Введённый ID: ${value}`;
     groupPreview.classList.add('show');
@@ -70,20 +56,21 @@ groupInput.addEventListener('input', () => {
   }
 });
 
-
 // Кнопка "Оплатить"
 document.getElementById('payBtn').addEventListener('click', () => {
   const duration = +document.getElementById('duration').value;
   const groupId = document.getElementById('groupId').value.trim();
 
-  // <-- добавляем логирование
+  // логируем клик по кнопке
   console.log('🔔 [WebApp] Pay button clicked', {
     plan: selectedPlan,
     duration,
     groupId
   });
 
-  if (!groupId || !/^\d{5,}$/.test(groupId)) {
+  // проверяем цифры без минуса
+  const digits = groupId.startsWith('-') ? groupId.slice(1) : groupId;
+  if (!/^\d+$/.test(digits) || digits.length < 5) {
     alert('Введите корректный ID группы (только цифры, минимум 5 знаков).');
     groupInput.classList.add('error');
     return;
